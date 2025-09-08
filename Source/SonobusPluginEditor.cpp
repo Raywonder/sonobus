@@ -2179,7 +2179,7 @@ void SonobusAudioProcessorEditor::buttonClicked (Button* buttonThatWasClicked)
             mFileRecordingLabel->setText("", dontSendNotification);
 
             //Timer::callAfterDelay(200, []() {
-            //    AccessibilityHandler::postAnnouncement(TRANS("Recording finished"), AccessibilityHandler::AnnouncementPriority::high);
+                AccessibilityHandler::postAnnouncement(TRANS("Recording finished"), AccessibilityHandler::AnnouncementPriority::high);
             //});
 
 
@@ -2264,7 +2264,7 @@ void SonobusAudioProcessorEditor::buttonClicked (Button* buttonThatWasClicked)
                 showPopTip(TRANS("Started recording output"), 2000, mRecordingButton.get());
 #else
                 //Timer::callAfterDelay(200, []() {
-                //    AccessibilityHandler::postAnnouncement(TRANS("Started recording output"), AccessibilityHandler::AnnouncementPriority::high);
+                    AccessibilityHandler::postAnnouncement(TRANS("Started recording output"), AccessibilityHandler::AnnouncementPriority::high);
                 //});
 #endif
 
@@ -3950,7 +3950,7 @@ void SonobusAudioProcessorEditor::handleAsyncUpdate()
 
             //mChatView->addNewChatMessage(SBChatEvent(SBChatEvent::SystemType, "", "", "", "", statstr));
 
-            //AccessibilityHandler::postAnnouncement(TRANS("Disconnected"), AccessibilityHandler::AnnouncementPriority::high);
+                AccessibilityHandler::postAnnouncement(TRANS("Disconnected"), AccessibilityHandler::AnnouncementPriority::high);
 
 
             mPeerContainer->resetPendingUsers();
@@ -3963,7 +3963,7 @@ void SonobusAudioProcessorEditor::handleAsyncUpdate()
             if (ev.success) {
                 statstr = TRANS("Joined Group: ") + ev.group;
 
-                //AccessibilityHandler::postAnnouncement(statstr, AccessibilityHandler::AnnouncementPriority::high);
+                    AccessibilityHandler::postAnnouncement(statstr, AccessibilityHandler::AnnouncementPriority::high);
 
                 showConnectPopup(false);
 
@@ -4008,7 +4008,7 @@ void SonobusAudioProcessorEditor::handleAsyncUpdate()
                 statstr = TRANS("Failed to leave group: ") + ev.message;
             }
 
-            //AccessibilityHandler::postAnnouncement(statstr, AccessibilityHandler::AnnouncementPriority::high);
+                AccessibilityHandler::postAnnouncement(statstr, AccessibilityHandler::AnnouncementPriority::high);
 
             mChatView->addNewChatMessage(SBChatEvent(SBChatEvent::SystemType, ev.group, "", "", "", statstr));
 
@@ -5105,7 +5105,7 @@ void SonobusAudioProcessorEditor::showPopTip(const String & message, int timeout
     popTip->toFront(false);
 
     //Timer::callAfterDelay(200, [message]() {
-    //    AccessibilityHandler::postAnnouncement(message, AccessibilityHandler::AnnouncementPriority::high);
+        AccessibilityHandler::postAnnouncement(message, AccessibilityHandler::AnnouncementPriority::high);
     //});
 }
 

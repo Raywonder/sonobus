@@ -72,3 +72,8 @@ Rectangle<float> SonoDrawableButton::getImageBounds() const
     
     return r.toFloat();
 }
+
+std::unique_ptr<AccessibilityHandler> SonoDrawableButton::createAccessibilityHandler()
+{
+    return std::make_unique<AccessibilityHandler>(*this, AccessibilityRole::button);
+}

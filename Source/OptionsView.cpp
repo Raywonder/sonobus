@@ -1370,7 +1370,7 @@ void OptionsView::showPopTip(const String & message, int timeoutMs, Component * 
         popTip->showAt(topbox, text, timeoutMs);
     }
     popTip->toFront(false);
-    //AccessibilityHandler::postAnnouncement(message, AccessibilityHandler::AnnouncementPriority::high);
+        AccessibilityHandler::postAnnouncement(message, AccessibilityHandler::AnnouncementPriority::high);
 }
 
 void OptionsView::paint(Graphics & g)

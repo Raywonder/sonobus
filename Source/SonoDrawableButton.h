@@ -32,6 +32,9 @@ public:
 
     void setBackgroundImage(const Drawable * img);
     
+    // Accessibility support
+    std::unique_ptr<AccessibilityHandler> createAccessibilityHandler() override;
+    
 protected:
     
     std::unique_ptr<Drawable> bgImage;
