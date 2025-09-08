@@ -82,7 +82,7 @@ juce_add_modules(deps/ff_meters)
 
 
 
-set (FormatsToBuild VST3 VST Standalone)
+set (FormatsToBuild VST3 Standalone)
 
 # On Mac, a AU version will be built too
 if (APPLE)
@@ -605,6 +605,7 @@ function(sono_add_custom_plugin_target target_name product_name formats is_instr
     target_link_libraries("${target_name}" 
         PRIVATE
             juce::juce_audio_utils
+            juce::juce_audio_processors
             juce::juce_dsp
 	    juce::juce_cryptography
             juce::juce_audio_plugin_client

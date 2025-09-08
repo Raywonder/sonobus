@@ -64,7 +64,7 @@ public:
 private:
     AudioPluginFormatManager formatManager;
     KnownPluginList knownPluginList;
-    std::unique_ptr<AudioPluginDirectoryScanner> scanner;
+    std::unique_ptr<PluginDirectoryScanner> scanner;
     
     struct PluginInstance {
         std::unique_ptr<AudioPluginInstance> plugin;

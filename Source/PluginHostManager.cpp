@@ -41,15 +41,18 @@ void PluginHostManager::scanForPlugins()
     if (scanner != nullptr)
         return; // Already scanning
         
-    auto& fileSearchPaths = formatManager.getDefaultLocationsToSearch();
-    
-    scanner = std::make_unique<AudioPluginDirectoryScanner> (knownPluginList,
-                                                            formatManager,
-                                                            fileSearchPaths,
-                                                            true,
-                                                            File());
-    
-    scanner->setFiltersToUse (AudioPluginDirectoryScanner::FilterType::all);
+    // Get all available plugin formats
+    for (int i = 0; i < formatManager.getNumFormats(); ++i) {
+        if (auto* format = formatManager.getFormat(i)) {
+            FileSearchPath searchPaths = format->getDefaultLocationsToSearch();
+            scanner = std::make_unique<PluginDirectoryScanner> (knownPluginList,
+                                                                *format,
+                                                                searchPaths,
+                                                                true,
+                                                                File());
+            break; // Start with the first format for now
+        }
+    }
     
     // Start scanning in background thread
     Thread::launch ([this]() {
@@ -79,7 +82,7 @@ void PluginHostManager::loadPlugin (const PluginDescription& desc)
     if (auto instance = formatManager.createPluginInstance (desc, currentSampleRate, currentBufferSize, errorMessage))
     {
         auto pluginInstance = new PluginInstance();
-        pluginInstance->plugin = std::unique_ptr<AudioPluginInstance> (instance);
+        pluginInstance->plugin = std::move (instance);
         pluginInstance->description = desc;
         
         if (prepared)
@@ -298,8 +301,8 @@ void PluginHostManager::getStateInformation (MemoryBlock& destData)
         pluginXml->setAttribute ("bypassed", pluginInstance->bypassed);
         
         // Save plugin description
-        auto* descXml = pluginXml->createNewChildElement ("PluginDescription");
-        pluginInstance->description.writeXml (*descXml);
+        if (auto descXmlPtr = pluginInstance->description.createXml())
+            pluginXml->addChildElement (descXmlPtr.release());
         
         // Save plugin state
         if (pluginInstance->plugin)
@@ -315,16 +318,16 @@ void PluginHostManager::getStateInformation (MemoryBlock& destData)
         }
     }
     
-    copyXmlToBinary (xml, destData);
+    AudioProcessor::copyXmlToBinary (xml, destData);
 }
 
 void PluginHostManager::setStateInformation (const void* data, int sizeInBytes)
 {
     clearAllPlugins();
     
-    if (auto xml = getXmlFromBinary (data, sizeInBytes))
+    if (auto xml = AudioProcessor::getXmlFromBinary (data, sizeInBytes))
     {
-        forEachXmlChildElement (*xml, pluginXml)
+        for (auto* pluginXml : xml->getChildIterator())
         {
             if (pluginXml->hasTagName ("Plugin"))
             {
@@ -410,7 +413,10 @@ void PluginHostManager::saveKnownPluginList()
         appDataDir.createDirectory();
         
     auto pluginListFile = appDataDir.getChildFile ("PluginList.xml");
-    knownPluginList.writeToXmlFile (pluginListFile);
+    if (auto xml = knownPluginList.createXml())
+    {
+        xml->writeTo (pluginListFile);
+    }
 }
 
 void PluginHostManager::loadKnownPluginList()
@@ -422,6 +428,9 @@ void PluginHostManager::loadKnownPluginList()
     
     if (pluginListFile.existsAsFile())
     {
-        knownPluginList.readFromXmlFile (pluginListFile);
+        if (auto xml = XmlDocument::parse (pluginListFile))
+        {
+            knownPluginList.recreateFromXml (*xml);
+        }
     }
 }
