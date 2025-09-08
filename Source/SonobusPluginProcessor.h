@@ -17,6 +17,7 @@
 
 #include "EffectParams.h"
 #include "ChannelGroup.h"
+#include "PluginHostManager.h"
 
 #include "zitaRev.h"
 
@@ -581,6 +582,10 @@ public:
 
     bool getDisableKeyboardShortcuts() const { return mDisableKeyboardShortcuts; }
     void setDisableKeyboardShortcuts(bool flag) {  mDisableKeyboardShortcuts = flag; }
+
+    // VST/AU Plugin hosting
+    PluginHostManager* getPluginHostManager() { return mPluginHostManager.get(); }
+    const PluginHostManager* getPluginHostManager() const { return mPluginHostManager.get(); }
 
 
     struct VideoLinkInfo
@@ -1257,6 +1262,9 @@ private:
     VideoLinkInfo mVideoLinkInfo;
     
     File mSupportDir;
+    
+    // VST/AU Plugin hosting
+    std::unique_ptr<PluginHostManager> mPluginHostManager;
     
     // global config
     ValueTree   mGlobalState;

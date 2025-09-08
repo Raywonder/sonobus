@@ -82,7 +82,7 @@ juce_add_modules(deps/ff_meters)
 
 
 
-set (FormatsToBuild VST3 Standalone)
+set (FormatsToBuild VST3 VST Standalone)
 
 # On Mac, a AU version will be built too
 if (APPLE)
@@ -248,6 +248,8 @@ function(sono_add_custom_plugin_target target_name product_name formats is_instr
         Source/ChannelGroup.h
         Source/ChannelGroupsView.cpp
         Source/ChannelGroupsView.h
+        Source/PluginHostManager.cpp
+        Source/PluginHostManager.h
         Source/ChatView.cpp
         Source/ChatView.h
         Source/CompressorView.h
