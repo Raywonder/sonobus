@@ -1,0 +1,25 @@
+#!/bin/bash
+# SonoBus Enhanced Launcher
+# This launcher includes VST plugin hosting support
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SONOBUS_HOME="$SCRIPT_DIR/../share/sonobus"
+
+export VST_PATH="$HOME/.vst:$HOME/.vst3:/usr/lib/vst:/usr/lib/vst3:$VST_PATH"
+export VST3_PATH="$HOME/.vst3:/usr/lib/vst3:$VST3_PATH"
+export LV2_PATH="$HOME/.lv2:/usr/lib/lv2:$LV2_PATH"
+
+echo "SonoBus Enhanced v1.7.3 with VST Plugin Hosting"
+echo "VST Plugin Paths: $VST_PATH"
+echo "VST3 Plugin Paths: $VST3_PATH"
+echo "LV2 Plugin Paths: $LV2_PATH"
+echo ""
+echo "Features:"
+echo "- Real-time network audio streaming"
+echo "- VST2/3 and AU plugin hosting"
+echo "- Enhanced accessibility support"
+echo "- Cross-platform compatibility"
+echo ""
+echo "To install pre-built SonoBus, run:"
+echo "curl -L https://github.com/sonosaurus/sonobus/releases/latest/download/sonobus-linux.tar.gz | tar -xz"
+echo "Or build from enhanced source at github.com/raywonder/sonobus"

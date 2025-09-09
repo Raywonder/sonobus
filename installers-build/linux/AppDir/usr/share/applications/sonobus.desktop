@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=SonoBus Enhanced
+Comment=Real-time network audio streaming with VST plugin hosting
+Exec=sonobus
+Icon=sonobus
+Terminal=false
+Categories=AudioVideo;Audio;
+StartupNotify=true
